@@ -20,27 +20,27 @@
     "hadron"
   ],
   "dependencies": {
-    "detect-libc": "^2.0.0",
+    "detect-libc": "^2.0.3",
     "expand-template": "^2.0.3",
-    "github-from-package": "0.0.0",
-    "minimist": "^1.2.3",
+    "github-from-package": "^0.0.0",
+    "minimist": "^1.2.8",
     "mkdirp-classic": "^0.5.3",
-    "napi-build-utils": "^1.0.1",
-    "node-abi": "^3.3.0",
+    "napi-build-utils": "^1.0.2",
+    "node-abi": "^3.63.0",
     "pump": "^3.0.0",
-    "rc": "^1.2.7",
-    "simple-get": "^4.0.0",
-    "tar-fs": "^2.0.0",
+    "rc": "^1.2.8",
+    "simple-get": "^4.0.1",
+    "tar-fs": "^3.0.6",
     "tunnel-agent": "^0.6.0"
   },
   "devDependencies": {
     "a-native-module": "^1.0.0",
-    "hallmark": "^4.0.0",
+    "hallmark": "^5.0.0",
     "nock": "^13.5.4",
-    "rimraf": "^2.5.2",
-    "standard": "^16.0.4",
-    "tape": "^5.3.1",
-    "tempy": "0.2.1"
+    "rimraf": "^5.0.7",
+    "standard": "^17.1.0",
+    "tape": "^5.7.5",
+    "tempy": "^1.0.1"
   },
   "bin": "./bin.js",
   "repository": {
@@ -64,6 +64,6 @@
   },
   "homepage": "https://github.com/mmomtchev/prebuild-install",
   "engines": {
-    "node": ">=10"
+    "node": ">=18"
   }
 }

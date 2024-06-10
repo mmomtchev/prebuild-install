@@ -11,7 +11,9 @@
 
 ## Note
 
-**Instead of [`prebuild`](https://github.com/prebuild/prebuild) paired with [`prebuild-install`](https://github.com/prebuild/prebuild-install), we recommend [`prebuildify`](https://github.com/prebuild/prebuildify) paired with [`node-gyp-build`](https://github.com/prebuild/node-gyp-build).**
+**What about [`prebuildify`](https://github.com/prebuild/prebuildify) paired with [`node-gyp-build`](https://github.com/prebuild/node-gyp-build)?**
+
+`prebuildify` is also an option, should anyone volunteer to adapt it. As `hadron` and `SWIG JSE` are targeted mainly at large C++ libraries, `prebuildify` seems to be less of a natural choice, since it will bring the `npm` packages - which will have 5 binaries - for Windows x64, Linux x64, macOS x64, macOS arm64 and WASM - in the gigabyte range.
 
 With `prebuildify`, all prebuilt binaries are shipped inside the package that is published to npm, which means there's no need for a separate download step like you find in `prebuild`. The irony of this approach is that it is faster to download all prebuilt binaries for every platform when they are bundled than it is to download a single prebuilt binary as an install script.
 

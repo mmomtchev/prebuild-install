@@ -80,7 +80,7 @@ test('urlTemplate() returns different templates based on pkg and rc', function (
     download: true
   }
   delete o7.binary
-  let envProperty = 'npm_config_' + o7.pkg.name.replace(/[^a-zA-Z0-9]/g, '_') + '_binary_host'
+  let envProperty = 'npm_config_' + o7.pkg.name.replace(util.npmInvalidCharsRE, '_') + '_binary_host'
   process.env[envProperty] = 'http://overriden-url.com/overriden-path'
   const t7 = util.urlTemplate(o7)
   delete process.env[envProperty]

@@ -3,6 +3,7 @@ const github = require('github-from-package')
 const home = require('os').homedir
 const crypto = require('crypto')
 const expandTemplate = require('expand-template')()
+const npmInvalidCharsRE = /[^a-zA-Z0-9@]/g
 
 function getDownloadUrl (opts) {
   const pkgName = opts.pkg.name.replace(/^@[a-zA-Z0-9_\-.~]+\//, '')
@@ -61,7 +62,7 @@ function urlTemplate (opts) {
 }
 
 function getEnvPrefix (pkgName) {
-  return 'npm_config_' + (pkgName || '').replace(/[^a-zA-Z0-9]/g, '_').replace(/^_/, '')
+  return 'npm_config_' + (pkgName || '').replace(npmInvalidCharsRE, '_').replace(/^_/, '')
 }
 
 function getHostMirrorUrl (opts) {
@@ -75,7 +76,7 @@ function trimSlashes (str) {
 
 function cachedPrebuild (url) {
   const digest = crypto.createHash('sha512').update(url).digest('hex').slice(0, 6)
-  return path.join(prebuildCache(), digest + '-' + path.basename(url).replace(/[^a-zA-Z0-9.]+/g, '-'))
+  return path.join(prebuildCache(), digest + '-' + path.basename(url).replace(npmInvalidCharsRE, '-'))
 }
 
 function npmCache () {
@@ -141,3 +142,4 @@ exports.npmCache = npmCache
 exports.tempFile = tempFile
 exports.packageOrigin = packageOrigin
 exports.noopLogger = noopLogger
+exports.npmInvalidCharsRE = npmInvalidCharsRE

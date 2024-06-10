@@ -103,7 +103,7 @@ function downloadPrebuild (downloadUrl, opts, cb) {
         let resolved
         if (binaryName) {
           try {
-            resolved = path.resolve(opts.path || '.', binaryName)
+            resolved = path.resolve(opts.path || '.', 'lib', 'binding', binaryName)
           } catch (err) {
             return cb(err)
           }

@@ -1,7 +1,7 @@
 {
-  "name": "prebuild-install",
-  "version": "7.1.2",
-  "description": "A command line tool to easily install prebuilt binaries for multiple version of node/iojs on a specific platform",
+  "name": "@mmomtchev/prebuild-install",
+  "version": "1.0.0",
+  "description": "prebuild-install modified for hadron",
   "scripts": {
     "test": "standard && hallmark && tape test/*-test.js",
     "hallmark": "hallmark --fix"
@@ -16,7 +16,8 @@
     "c++",
     "bindings",
     "devops",
-    "napi"
+    "napi",
+    "hadron"
   ],
   "dependencies": {
     "detect-libc": "^2.0.0",
@@ -44,7 +45,7 @@
   "bin": "./bin.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/prebuild/prebuild-install.git"
+    "url": "https://github.com/mmomtchev/prebuild-install.git"
   },
   "author": "Mathias Buus (@mafintosh)",
   "contributors": [
@@ -54,13 +55,14 @@
     "Lars-Magnus Skog <ralphtheninja@riseup.net> (https://github.com/ralphtheninja)",
     "Jesús Leganés Combarro <piranna@gmail.com> (https://github.com/piranna)",
     "Mathias Küsel <mathiask@hotmail.de> (https://github.com/mathiask88)",
-    "Lukas Geiger <lukas.geiger94@gmail.com> (https://github.com/lgeiger)"
+    "Lukas Geiger <lukas.geiger94@gmail.com> (https://github.com/lgeiger)",
+    "Momtchil Momtchev <momtchil@momtchev.com> (https://github.cmom/mmomtchev)"
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/prebuild/prebuild-install/issues"
+    "url": "https://github.com/mmomtchev/prebuild-install/issues"
   },
-  "homepage": "https://github.com/prebuild/prebuild-install",
+  "homepage": "https://github.com/mmomtchev/prebuild-install",
   "engines": {
     "node": ">=10"
   }

@@ -1,6 +1,6 @@
-# prebuild-install
+# @mmomtchev/prebuild-install
 
-> **A command line tool to easily install prebuilt binaries for multiple versions of Node.js & Electron on a specific platform.**
+> **The hadron version of prebuild-install, used for installing prebuilt binaries**
 > By default it downloads prebuilt binaries from a GitHub release.
 
 [![npm](https://img.shields.io/npm/v/prebuild-install.svg)](https://www.npmjs.com/package/prebuild-install)

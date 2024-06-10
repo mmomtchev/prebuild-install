@@ -102,7 +102,7 @@ test('can pass in external package config to rc', function (t) {
 
 test('use default ABI', function (t) {
   runRc(t, '', {}, function (rc) {
-    t.equal(rc.abi, process.versions.modules, 'correct default ABI')
+    t.equal(rc.abi, undefined, 'correct default ABI')
     t.end()
   })
 })

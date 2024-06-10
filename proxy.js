@@ -8,10 +8,8 @@ function applyProxy (reqOpts, opts) {
   const proxy = opts['https-proxy'] || opts.proxy
 
   if (proxy) {
-    // eslint-disable-next-line node/no-deprecated-api
-    const parsedDownloadUrl = url.parse(reqOpts.url)
-    // eslint-disable-next-line node/no-deprecated-api
-    const parsedProxy = url.parse(proxy)
+    const parsedDownloadUrl = new url.URL(reqOpts.url)
+    const parsedProxy = new url.URL(proxy)
     const uriProtocol = (parsedDownloadUrl.protocol === 'https:' ? 'https' : 'http')
     const proxyProtocol = (parsedProxy.protocol === 'https:' ? 'Https' : 'Http')
     const tunnelFnName = [uriProtocol, proxyProtocol].join('Over')
@@ -19,7 +17,9 @@ function applyProxy (reqOpts, opts) {
       proxy: {
         host: parsedProxy.hostname,
         port: +parsedProxy.port,
-        proxyAuth: parsedProxy.auth
+        proxyAuth: parsedProxy.username
+          ? `${parsedProxy.username}:${parsedProxy.password}`
+          : undefined
       }
     })
     log.http('request', 'Proxy setup detected (Host: ' +

@@ -18,7 +18,7 @@ module.exports = function (pkg) {
     target: pkgConf.target || env.npm_config_target || process.versions.node,
     runtime: pkgConf.runtime || env.npm_config_runtime || 'node',
     arch: pkgConf.arch || env.npm_config_arch || process.arch,
-    libc: libc,
+    libc,
     platform: env.npm_config_platform || process.platform,
     debug: env.npm_config_debug === 'true',
     force: false,

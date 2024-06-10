@@ -5,6 +5,7 @@ const execFileSync = require('child_process').execFileSync
 const fs = require('fs')
 const tempy = require('tempy') // Locked to 0.2.1 for node 6 support
 const cleanEnv = require('./util/clean-env')
+const { platform } = require('os')
 const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm'
 
 test('skips download in git dependency', function (t) {
@@ -91,12 +92,12 @@ function prepareGit (cwd) {
 }
 
 function npmVersion () {
-  return parseInt(execFileSync(npm, ['-v']).toString())
+  return parseInt(execFileSync(npm, ['-v'], { shell: platform() === 'win32' }).toString())
 }
 
 function prepareTarball (cwd) {
   // Packs to <name>-<version>.tgz
-  execFileSync(npm, ['pack'], { cwd, stdio: 'ignore' })
+  execFileSync(npm, ['pack'], { cwd, stdio: 'ignore', shell: platform() === 'win32' })
 
   return 'file:' + path.join(cwd, 'addon-1.0.0.tgz')
 }

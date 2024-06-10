@@ -12,14 +12,15 @@ const libc = env.LIBC || process.env.npm_config_libc ||
 // Get the configuration
 module.exports = function (pkg) {
   const pkgConf = pkg.config || {}
-  const buildFromSource = env.npm_config_build_from_source
+  const platform = env.npm_config_platform || process.platform
+  const buildFromSource = platform !== 'emscripten' ? env.npm_config_build_from_source : env.npm_config_build_wasm_from_source
 
   const rc = require('rc')('prebuild-install', {
     target: pkgConf.target || env.npm_config_target || process.versions.node,
     runtime: pkgConf.runtime || env.npm_config_runtime || 'napi',
     arch: pkgConf.arch || env.npm_config_arch || process.arch,
     libc,
-    platform: env.npm_config_platform || process.platform,
+    platform,
     debug: env.npm_config_debug === 'true',
     force: false,
     verbose: env.npm_config_verbose === 'true',

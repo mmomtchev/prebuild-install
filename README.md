@@ -59,7 +59,7 @@ prebuild-install [options]
 
   --download    -d  [url]       (download prebuilds, no url means github)
   --target      -t  version     (version to install for)
-  --runtime     -r  runtime     (Node runtime [node, napi or electron] to build or install for, default is node)
+  --runtime     -r  runtime     (Node runtime [node, napi or electron] to build or install for, default is napi)
   --path        -p  path        (make a prebuild-install here)
   --token       -T  gh-token    (github token for private repos)
   --arch            arch        (target CPU architecture, see Node OS module docs, default is current arch)

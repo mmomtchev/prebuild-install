@@ -16,7 +16,7 @@ module.exports = function (pkg) {
 
   const rc = require('rc')('prebuild-install', {
     target: pkgConf.target || env.npm_config_target || process.versions.node,
-    runtime: pkgConf.runtime || env.npm_config_runtime || 'node',
+    runtime: pkgConf.runtime || env.npm_config_runtime || 'napi',
     arch: pkgConf.arch || env.npm_config_arch || process.arch,
     libc,
     platform: env.npm_config_platform || process.platform,

@@ -1,3 +1,5 @@
+### 1.0.2
+
 ### 1.0.1 2024-06-11
 
 - [#4](https://github.com/mmomtchev/prebuild-install/pull/4), separate `--build-wasm-from-source` for `emscripten`

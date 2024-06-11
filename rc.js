@@ -12,19 +12,17 @@ const libc = env.LIBC || process.env.npm_config_libc ||
 // Get the configuration
 module.exports = function (pkg) {
   const pkgConf = pkg.config || {}
-  const platform = env.npm_config_platform || process.platform
-  const buildFromSource = platform !== 'emscripten' ? env.npm_config_build_from_source : env.npm_config_build_wasm_from_source
 
   const rc = require('rc')('prebuild-install', {
     target: pkgConf.target || env.npm_config_target || process.versions.node,
     runtime: pkgConf.runtime || env.npm_config_runtime || 'napi',
     arch: pkgConf.arch || env.npm_config_arch || process.arch,
     libc,
-    platform,
+    platform: env.npm_config_platform || process.platform,
     debug: env.npm_config_debug === 'true',
     force: false,
     verbose: env.npm_config_verbose === 'true',
-    buildFromSource: buildFromSource === pkg.name || buildFromSource === 'true',
+    buildFromSource: undefined,
     path: '.',
     proxy: env.npm_config_proxy || env.http_proxy || env.HTTP_PROXY,
     'https-proxy': env.npm_config_https_proxy || env.https_proxy || env.HTTPS_PROXY,
@@ -45,6 +43,11 @@ module.exports = function (pkg) {
       token: 'T'
     }
   }))
+
+  if (rc.buildFromSource === undefined) {
+    const buildFromSource = rc.platform !== 'emscripten' ? env.npm_config_build_from_source : env.npm_config_build_wasm_from_source
+    rc.buildFromSource = buildFromSource === pkg.name || buildFromSource === 'true'
+  }
 
   rc.path = path.resolve(rc.path === true ? '.' : rc.path || '.')
 

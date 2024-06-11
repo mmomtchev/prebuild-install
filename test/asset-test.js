@@ -9,8 +9,8 @@ const asset = require('../asset')
 const nock = require('nock')
 const releases = require('./releases.json')
 
-const build = path.join(__dirname, 'build')
-const unpacked = path.join(build, 'Release/leveldown.node')
+const build = path.join(__dirname, 'lib')
+const unpacked = path.join(build, 'binding', 'example.node')
 
 // Release assets call
 nock('https://api.github.com:443', {
@@ -21,7 +21,7 @@ nock('https://api.github.com:443', {
   }
 })
   .persist()
-  .get('/repos/ralphtheninja/a-native-module/releases')
+  .get('/repos/mmomtchev/hadron-swig-napi-example-project/releases')
   .reply(200, releases)
 
 // Binary download
@@ -33,12 +33,12 @@ nock('https://api.github.com:443', {
 })
   .persist()
   .get(function (uri) {
-    return /\/repos\/ralphtheninja\/a-native-module\/releases\/assets\/\d*/g.test(uri)
+    return /\/repos\/mmomtchev\/hadron-swig-napi-example-project\/releases\/assets\/\d*/g.test(uri)
   })
   .reply(302, undefined, {
     Location: function (req, res, body) {
       const assetId = req.path
-        .replace('/repos/ralphtheninja/a-native-module/releases/assets/', '')
+        .replace('/repos/mmomtchev/hadron-swig-napi-example-project/releases/assets/', '')
 
       for (const release of releases) {
         for (const asset of release.assets) {
@@ -51,7 +51,7 @@ nock('https://api.github.com:443', {
   })
 
 test('downloading from GitHub with token', function (t) {
-  t.plan(11)
+  t.plan(13)
   rm.sync(build)
   rm.sync(util.prebuildCache())
 
@@ -70,7 +70,7 @@ test('downloading from GitHub with token', function (t) {
         tempFile = path
         t.ok(/\.tmp$/i.test(path), 'this is the temporary file')
       } else {
-        t.ok(/\.node$/i.test(path), 'this is the unpacked file')
+        t.ok(/(.node)|(.d.ts)|(.cjs)|(.mjs)|(.wasm)$/i.test(path), 'this is the unpacked file')
       }
       return _createWriteStream(path)
     }
@@ -122,9 +122,20 @@ test('non existing version should fail asset request', function (t) {
 
 function getOpts () {
   return {
-    pkg: require('a-native-module/package'),
-    runtime: 'node',
-    abi: 64,
+    pkg: {
+      name: 'hadron-swig-napi-example-project',
+      version: '1.0.0',
+      repository: {
+        type: 'git',
+        url: 'git+https://github.com/mmomtchev/hadron-swig-napi-example-project.git'
+      },
+      binary: {
+        package_name: '{platform}-{arch}.tar.gz',
+        remote_path: 'mmomtchev/hadron-swig-napi-example-project/releases/download/{tag_prefix}{version}/',
+        host: 'https://github.com'
+      }
+    },
+    runtime: 'napi',
     platform: process.platform,
     arch: process.arch,
     path: __dirname,

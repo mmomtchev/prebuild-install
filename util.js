@@ -4,6 +4,7 @@ const home = require('os').homedir
 const crypto = require('crypto')
 const expandTemplate = require('expand-template')()
 const npmInvalidCharsRE = /[^a-zA-Z0-9@]/g
+const allowedPkgFiles = /(.node)|(.d.ts)|(.cjs)|(.mjs)|(.wasm)$/i
 
 function getDownloadUrl (opts) {
   const pkgName = opts.pkg.name.replace(/^@[a-zA-Z0-9_\-.~]+\//, '')
@@ -143,3 +144,4 @@ exports.tempFile = tempFile
 exports.packageOrigin = packageOrigin
 exports.noopLogger = noopLogger
 exports.npmInvalidCharsRE = npmInvalidCharsRE
+exports.allowedPkgFiles = allowedPkgFiles

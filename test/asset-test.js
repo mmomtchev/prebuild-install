@@ -70,7 +70,7 @@ test('downloading from GitHub with token', function (t) {
         tempFile = path
         t.ok(/\.tmp$/i.test(path), 'this is the temporary file')
       } else {
-        t.ok(/(.node)|(.d.ts)|(.cjs)|(.mjs)|(.wasm)$/i.test(path), 'this is the unpacked file')
+        t.ok(util.allowedPkgFiles.test(path), 'this is the unpacked file')
       }
       return _createWriteStream(path)
     }

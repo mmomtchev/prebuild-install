@@ -1,4 +1,8 @@
-# 1.0.0
+### 1.0.1 2024-06-11
+
+- [#4](https://github.com/mmomtchev/prebuild-install/pull/4), separate `--build-wasm-from-source` for `emscripten`
+
+# 1.0.0 2024-06-11
 
 - Fork `prebuild-install`
 - Bring it up to date for recent Node.js versions

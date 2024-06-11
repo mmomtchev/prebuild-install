@@ -85,6 +85,18 @@ test('npm_config_* are passed on from environment into rc', function (t) {
   })
 })
 
+test('npm_config_build_wasm from source is used from emscripten', function (t) {
+  const env = {
+    npm_config_platform: 'emscripten',
+    npm_config_build_wasm_from_source: 'true'
+  }
+  runRc(t, '', env, function (rc) {
+    t.equal(rc.platform, 'emscripten', 'platform is set')
+    t.equal(rc.buildFromSource, true, 'build-from-source is set')
+    t.end()
+  })
+})
+
 test('can pass in external package config to rc', function (t) {
   const pkg = {
     config: {

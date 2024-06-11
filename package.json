@@ -1,6 +1,6 @@
 {
   "name": "@mmomtchev/prebuild-install",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "prebuild-install modified for hadron",
   "scripts": {
     "test": "standard && hallmark && tape test/*-test.js",

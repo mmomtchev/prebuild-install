@@ -8,11 +8,11 @@ const download = require('../download')
 const util = require('../util')
 const error = require('../error')
 
-const build = path.join(__dirname, 'build')
-const unpacked = path.join(build, 'Release/leveldown.node')
+const build = path.join(__dirname, 'lib')
+const unpacked = path.join(build, 'binding', 'example.node')
 
 test('downloading from GitHub, not cached', function (t) {
-  t.plan(10)
+  t.plan(12)
   rm.sync(build)
   rm.sync(util.prebuildCache())
 
@@ -28,7 +28,9 @@ test('downloading from GitHub, not cached', function (t) {
       tempFile = path
       t.ok(/\.tmp$/i.test(path), 'this is the temporary file')
     } else {
-      t.ok(/\.node$/i.test(path), 'this is the unpacked file')
+      if (!util.ignoredPkgFiles.test(path)) {
+        t.ok(util.allowedPkgFiles.test(path), 'this is the unpacked file')
+      }
     }
     return _createWriteStream(path)
   }
@@ -60,7 +62,7 @@ test('downloading from GitHub, not cached', function (t) {
 })
 
 test('cached prebuild', function (t) {
-  t.plan(5)
+  t.plan(7)
   rm.sync(build)
 
   const opts = getOpts()
@@ -69,7 +71,9 @@ test('cached prebuild', function (t) {
 
   const _createWriteStream = fs.createWriteStream
   fs.createWriteStream = function (path) {
-    t.ok(/\.node$/i.test(path), 'this is the unpacked file')
+    if (!util.ignoredPkgFiles.test(path)) {
+      t.ok(util.allowedPkgFiles.test(path), 'this is the unpacked file')
+    }
     return _createWriteStream(path)
   }
 
@@ -90,7 +94,7 @@ test('cached prebuild', function (t) {
 })
 
 test('local prebuild', function (t) {
-  t.plan(6)
+  t.plan(8)
   rm.sync(build)
 
   const opts = getOpts()
@@ -105,7 +109,9 @@ test('local prebuild', function (t) {
 
   const _createWriteStream = fs.createWriteStream
   fs.createWriteStream = function (path) {
-    t.ok(/\.node$/i.test(path), 'this is the unpacked file')
+    if (!util.ignoredPkgFiles.test(path)) {
+      t.ok(util.allowedPkgFiles.test(path), 'this is the unpacked file')
+    }
     return _createWriteStream(path)
   }
 
@@ -123,6 +129,7 @@ test('local prebuild', function (t) {
     fs.createReadStream = _createReadStream
     fs.createWriteStream = _createWriteStream
     rm.sync(localPrebuild)
+    rm.sync(build)
   })
 })
 
@@ -161,6 +168,7 @@ test('existing host but invalid url should fail', function (t) {
     remote_path: 'prebuilds',
     package_name: 'woohooo-{abi}'
   }
+  opts.abi = process.versions.modules
 
   const downloadUrl = util.getDownloadUrl(opts)
   const cachedPrebuild = util.cachedPrebuild(downloadUrl)
@@ -190,6 +198,7 @@ test('error during download should fail with no dangling temp file', function (t
     remote_path: 'prebuilds',
     package_name: 'woohooo-{abi}'
   }
+  opts.abi = process.versions.modules
 
   const downloadUrl = util.getDownloadUrl(opts)
   const cachedPrebuild = util.cachedPrebuild(downloadUrl)
@@ -236,6 +245,7 @@ test('should fail if abi is system abi with invalid binary', function (t) {
   const opts = getOpts()
   opts.abi = process.versions.modules
   opts.pkg.binary = { host: 'http://localhost:8890' }
+  opts.runtime = 'node'
 
   const server = http.createServer(function (req, res) {
     res.statusCode = 200
@@ -256,9 +266,20 @@ test('should fail if abi is system abi with invalid binary', function (t) {
 
 function getOpts () {
   return {
-    pkg: require('a-native-module/package'),
-    runtime: 'node',
-    abi: 64,
+    pkg: {
+      name: 'hadron-swig-napi-example-project',
+      version: '1.0.0',
+      repository: {
+        type: 'git',
+        url: 'git+https://github.com/mmomtchev/hadron-swig-napi-example-project.git'
+      },
+      binary: {
+        package_name: '{platform}-{arch}.tar.gz',
+        remote_path: 'mmomtchev/hadron-swig-napi-example-project/releases/download/{tag_prefix}{version}/',
+        host: 'https://github.com'
+      }
+    },
+    runtime: 'napi',
     platform: process.platform,
     arch: process.arch,
     path: __dirname,

@@ -9,7 +9,7 @@ test('downloading using proxy', function (t) {
   }
 
   const reqOpts = {
-    url: 'https://api.github.com/repos/ralphtheninja/a-native-module/releases',
+    url: 'https://api.github.com/repos/mmomtchev/hadron-swig-napi-example-project/releases',
     json: true,
     headers: {
       'User-Agent': 'simple-get',
@@ -34,7 +34,7 @@ test('downloading without using proxy', function (t) {
   t.plan(1)
 
   const reqOpts = {
-    url: 'https://api.github.com/repos/ralphtheninja/a-native-module/releases',
+    url: 'https://api.github.com/repos/mmomtchev/hadron-swig-napi-example-project/releases',
     json: true,
     headers: {
       'User-Agent': 'simple-get',

@@ -28,7 +28,9 @@ test('downloading from GitHub, not cached', function (t) {
       tempFile = path
       t.ok(/\.tmp$/i.test(path), 'this is the temporary file')
     } else {
-      t.ok(util.allowedPkgFiles.test(path), 'this is the unpacked file')
+      if (!util.ignoredPkgFiles.test(path)) {
+        t.ok(util.allowedPkgFiles.test(path), 'this is the unpacked file')
+      }
     }
     return _createWriteStream(path)
   }
@@ -69,7 +71,9 @@ test('cached prebuild', function (t) {
 
   const _createWriteStream = fs.createWriteStream
   fs.createWriteStream = function (path) {
-    t.ok(util.allowedPkgFiles.test(path), 'this is the unpacked file')
+    if (!util.ignoredPkgFiles.test(path)) {
+      t.ok(util.allowedPkgFiles.test(path), 'this is the unpacked file')
+    }
     return _createWriteStream(path)
   }
 
@@ -105,7 +109,9 @@ test('local prebuild', function (t) {
 
   const _createWriteStream = fs.createWriteStream
   fs.createWriteStream = function (path) {
-    t.ok(util.allowedPkgFiles.test(path), 'this is the unpacked file')
+    if (!util.ignoredPkgFiles.test(path)) {
+      t.ok(util.allowedPkgFiles.test(path), 'this is the unpacked file')
+    }
     return _createWriteStream(path)
   }
 

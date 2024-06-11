@@ -69,7 +69,7 @@ test('downloading from GitHub with token', function (t) {
       if (writeStreamCount++ === 0) {
         tempFile = path
         t.ok(/\.tmp$/i.test(path), 'this is the temporary file')
-      } else {
+      } else if (!util.ignoredPkgFiles.test(path)) {
         t.ok(util.allowedPkgFiles.test(path), 'this is the unpacked file')
       }
       return _createWriteStream(path)

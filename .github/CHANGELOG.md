@@ -1,4 +1,4 @@
-### 1.0.2
+### 1.0.2 2024-06-18
 
 - [#5](https://github.com/mmomtchev/prebuild-install/pull/5), handle `--build-wasm-from-source` as argument
 
